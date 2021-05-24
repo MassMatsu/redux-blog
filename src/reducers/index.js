@@ -3,7 +3,9 @@
 import {combineReducers} from 'redux'
 
 import postsReducer from './postsReducer'
+import usersReducer from './usersReducer'
 
 export default combineReducers({
-  posts: postsReducer
+  posts: postsReducer,  // this is state for the whole app
+  users: usersReducer
 })
