@@ -1,7 +1,19 @@
 // actions
+import _ from 'lodash';
 import jsonPlaceholder from '../api/jsonPlaceholder';
 
-// due to asynchronous process, it returns function instead of action object by utilizing redux-thunk
+// due to asynchronous process, it returns function instead of action object by utilizing redux-thunk (dispatch and getState argument from redux-thunk)
+
+export const fetchPostsAndUsers = () => async (dispatch, getState) => {
+  await dispatch(fetchPosts())
+
+  //const userIds = _.uniq(_.map(getState().posts, 'userId'))
+  const userIds = [...new Set(getState().posts.map((post) => post.userId))]
+
+  userIds.forEach((id) => dispatch(fetchUser(id)))
+  
+}
+
 export const fetchPosts = () => {
   return async (dispatch) => {
     const response = await jsonPlaceholder.get('/posts');
@@ -17,5 +29,16 @@ export const fetchUser = (id) => {
     dispatch({type: 'FETCH_USER', payload: response.data})
   }
 }
+
+// export const fetchUser = (id) => dispatch => {
+//   _fetchUser(id, dispatch)
+// }
+
+// const _fetchUser = _.memoize(async (id, dispatch) => {
+//   const response = await jsonPlaceholder.get(`/users/${id}`);
+
+//   dispatch({ type: 'FETCH_USER', payload: response.data });
+// })
+
 
 

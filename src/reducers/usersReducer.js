@@ -1,7 +1,6 @@
 const usersReducer = (state = [], action) => {
   switch (action.type) {
     case 'FETCH_USER':
-      console.log(action.payload)
       return [...state, action.payload]
 
     default:
